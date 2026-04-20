@@ -1,17 +1,38 @@
-{ lib, den, ... }:
 {
+  lib,
+  den,
+  inputs,
+  ...
+}: {
   den.default.nixos.system.stateVersion = "25.11";
   den.default.homeManager.home.stateVersion = "25.11";
 
+  # Global shell integration settings
+  den.default.homeManager.home.shell = {
+    enableFishIntegration = true;
+    enableNushellIntegration = false;
+    enableZshIntegration = false;
+    enableIonIntegration = false;
+  };
+
   # enable hm by default
-  den.schema.user.classes = lib.mkDefault [ "homeManager" ];
+  den.schema.user.classes = lib.mkDefault ["homeManager"];
 
   # host<->user provides
-  den.ctx.user.includes = [ den._.mutual-provider ];
+  den.ctx.user.includes = [den._.mutual-provider];
 
-  # User TODO: REMOVE THIS
-  den.aspects.tux.nixos = {
-    boot.loader.grub.enable = false;
-    fileSystems."/".device = "/dev/fake";
+  # Overlay for pkgs.unstable
+  den.default.nixos.nixpkgs.overlays = [
+    (final: _prev: {
+      unstable = import inputs.nixpkgs-unstable {
+        inherit (final) system;
+        config.allowUnfree = true;
+      };
+    })
+  ];
+
+  # Default formatter
+  perSystem = {pkgs, ...}: {
+    formatter = pkgs.alejandra;
   };
 }

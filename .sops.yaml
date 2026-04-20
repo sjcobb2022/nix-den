@@ -1,0 +1,21 @@
+keys:
+  # Yubikey PGP
+  - &sjcobb 01B6B355D152BCF82C1E231020F5849E2397D1F3
+
+  # Host age keys (from ssh-to-age)
+  - &slaptop age10h6u7gyke6tg9g5up2rd4zprfcsnewhxt8kgprm0cufe3he4zvps2pv53u
+
+creation_rules:
+  - path_regex: secrets/slaptop\.ya?ml$
+    key_groups:
+      - pgp:
+          - *sjcobb
+        age:
+          - *slaptop
+
+  - path_regex: secrets/common\.ya?ml$
+    key_groups:
+      - pgp:
+          - *sjcobb
+        age:
+          - *slaptop
