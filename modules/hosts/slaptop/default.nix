@@ -27,12 +27,13 @@
       ];
 
       hardware.facter.reportPath = ./facter.json;
+
+      # Override until https://github.com/NixOS/nixpkgs/issues/485579#issuecomment-4157687281 fixed
       hardware.facter.detected.boot.graphics.kernelModules = lib.mkForce ["amdgpu"];
 
       # Laptop-specific
       services.fwupd.enable = true;
-
-      environment.systemPackages = with pkgs; [nh];
+      services.logind.settings.Login.HandleLidSwitch = "suspend";
     };
   };
 }

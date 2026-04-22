@@ -7,6 +7,25 @@
   den.default.nixos.system.stateVersion = "25.11";
   den.default.homeManager.home.stateVersion = "25.11";
 
+  den.default.nixos.nix = {
+    settings = {
+      trusted-users = ["root" "@wheel"];
+      experimental-features = ["nix-command" "flakes"];
+      warn-dirty = false;
+      system-features = ["big-parallel" "nixos-test" "kvm"];
+    };
+    # Add each flake input as a registry for nix3 commands
+    registry = lib.mapAttrs (_: value: {flake = value;}) inputs;
+    # Add nixpkgs to NIX_PATH for nix2 commands
+    nixPath = ["nixpkgs=${inputs.nixpkgs.outPath}"];
+  };
+
+  den.default.nixos.programs.nh = {
+    enable = true;
+    clean.enable = true;
+    clean.extraArgs = "--keep-since 4d --keep 3";
+  };
+
   # Global shell integration settings
   den.default.homeManager.home.shell = {
     enableFishIntegration = true;

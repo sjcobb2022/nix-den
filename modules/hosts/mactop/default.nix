@@ -20,6 +20,9 @@
       homebrew = {
         enable = true;
         onActivation.cleanup = "uninstall";
+        taps = [];
+        brews = ["libiconv"];
+        casks = ["redisinsight" "dbeaver-community" "openvpn-connect" "yubico-yubikey-manager" "postman"];
       };
     };
   };

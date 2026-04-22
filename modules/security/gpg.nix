@@ -41,7 +41,7 @@
         # https://github.com/drduh/config/blob/master/gpg-agent.conf
         defaultCacheTtl = 60;
         maxCacheTtl = 120;
-        pinentry.package = pkgs.pinentry-gnome3;
+        pinentry.package = pkgs.pinentry-curses;
       };
     };
   };

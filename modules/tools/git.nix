@@ -24,10 +24,8 @@
     };
 
     # Persistence for gh auth and config
-    provides.impermanence-home.nixos = {user, ...}: {
-      home-manager.users.${user.name}.home.persistence."/persist".directories = [
-        ".config/gh"
-      ];
+    impermanence = {user, ...}: {
+      directories = [".config/gh"];
     };
   };
 }

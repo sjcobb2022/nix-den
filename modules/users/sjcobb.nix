@@ -10,20 +10,21 @@
       den.aspects.starship
       den.aspects.git
       den.aspects.kit
+      den.aspects.kit.provides.fish-aliases
     ];
 
+    # User class - forwards to users.users.sjcobb
+    # primary-user already provides wheel and networkmanager
+    user = {config, ...}: {
+      group = "sjcobb";
+      extraGroups = ["video" "audio"];
+      hashedPasswordFile = config.sops.secrets.sjcobb-pass.path;
+    };
+
+    # Group definition and mutableUsers setting
     nixos = {...}: {
-      users.users.sjcobb = {
-        isNormalUser = true;
-        group = "sjcobb";
-        extraGroups = [
-          "wheel"
-          "video"
-          "audio"
-          "networkmanager"
-        ];
-      };
       users.groups.sjcobb = {};
+      users.mutableUsers = false;
     };
 
     homeManager = {...}: {
