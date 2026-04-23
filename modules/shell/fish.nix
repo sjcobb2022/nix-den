@@ -38,7 +38,7 @@
       };
     };
 
-    # Persistence for fish history and data (parametric - only in user context)
+    # In the user context
     impermanence = {user, ...}: {
       directories = [".local/share/fish"];
     };

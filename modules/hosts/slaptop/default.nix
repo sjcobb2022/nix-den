@@ -4,6 +4,9 @@
   lib,
   ...
 }: {
+  den.ctx.user.includes = [(den.provides.impermanence-user "/persist")];
+  den.ctx.host.includes = [(den.provides.impermanence-host "/persist")];
+
   den.aspects.slaptop = {
     includes = [
       den.provides.hostname

@@ -3,14 +3,12 @@
     includes = [
       den.provides.primary-user
       (den.provides.user-shell "fish")
-      den.aspects.impermanence-home
       den.aspects.nvf
       den.aspects.gpg
       den.aspects.fish
       den.aspects.starship
       den.aspects.git
       den.aspects.kit
-      den.aspects.kit.provides.fish-aliases
     ];
 
     # User class - forwards to users.users.sjcobb
