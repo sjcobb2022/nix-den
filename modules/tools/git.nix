@@ -23,8 +23,7 @@
       };
     };
 
-    # Persistence for gh auth and config
-    impermanence = {user, ...}: {
+    impermanenceHome = {
       directories = [".config/gh"];
     };
   };

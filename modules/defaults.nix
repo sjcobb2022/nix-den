@@ -20,8 +20,6 @@
     nixPath = ["nixpkgs=${inputs.nixpkgs.outPath}"];
   };
 
-  den.fxPipeline = true;
-
   den.default.nixos.programs.nh = {
     enable = true;
     clean.enable = true;
@@ -37,10 +35,10 @@
   };
 
   # enable hm by default
-  den.schema.user.classes = lib.mkDefault ["homeManager" "impermanenceHome"];
+  den.schema.user.classes = lib.mkDefault ["homeManager"];
 
   # host<->user provides
-  den.ctx.user.includes = [den._.mutual-provider];
+  den.stages.user.includes = [den._.mutual-provider];
 
   # Overlay for pkgs.unstable
   den.default.nixos.nixpkgs.overlays = [

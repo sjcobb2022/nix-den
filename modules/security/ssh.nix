@@ -21,7 +21,7 @@
           ]
           else [
             {
-              path = "/persist/etc/ssh/ssh_host_ed25519_key";
+              path = "/etc/ssh/ssh_host_ed25519_key";
               type = "ed25519";
             }
           ];
@@ -34,6 +34,7 @@
     homeManager = {
       programs.ssh = {
         enable = true;
+        enableDefaultConfig = false;
         addKeysToAgent = "yes";
 
         # GPG agent forwarding for all hosts

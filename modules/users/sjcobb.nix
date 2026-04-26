@@ -14,18 +14,17 @@
 
     # User class - forwards to users.users.sjcobb
     user = {config, ...}: {
-      sops.secrets.sjcobb-pass = {
-        format = "yaml";
-        sopsFile = ../../secrets/common.yaml;
-      };
-
       group = "sjcobb";
       extraGroups = ["video" "audio"];
       hashedPasswordFile = config.sops.secrets.sjcobb-pass.path;
     };
 
-    # Group definition and mutableUsers setting
-    nixos = {...}: {
+    nixos = {
+      sops.secrets.sjcobb-pass = {
+        format = "yaml";
+        sopsFile = ../../secrets/common.yaml;
+      };
+
       users.groups.sjcobb = {};
     };
 

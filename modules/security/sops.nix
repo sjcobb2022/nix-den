@@ -12,12 +12,6 @@
     nixos = {config, ...}: {
       imports = [inputs.sops-nix.nixosModules.sops];
 
-      sops.secrets.sjcobb-pass = {
-        format = "yaml";
-        # can be also set per secret
-        sopsFile = ../../secrets/common.yaml;
-      };
-
       sops = {
         defaultSopsFile = ../../secrets/${config.networking.hostName}.yaml;
       };

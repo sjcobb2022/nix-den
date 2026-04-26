@@ -6,8 +6,8 @@
 }: {
   flake-file.inputs.nixos-hardware.url = "github:NixOS/nixos-hardware";
 
-  den.ctx.user.includes = [(den.provides.impermanenceHome "/persist")];
-  den.ctx.host.includes = [(den.provides.impermanence "/persist")];
+  den.stages.user.includes = [(den.provides.impermanenceHome "/persist")];
+  den.stages.host.includes = [(den.provides.impermanence "/persist")];
 
   den.aspects.slaptop = {
     includes = [
@@ -32,7 +32,7 @@
       ];
 
       # set all users on this laptop to not be mutable.
-      users.users.mutableUsers = false;
+      users.mutableUsers = false;
 
       hardware.facter.reportPath = ./facter.json;
 
