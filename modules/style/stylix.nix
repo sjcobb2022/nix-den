@@ -3,6 +3,11 @@
   inputs,
   ...
 }: {
+  flake-file.inputs.stylix = {
+    url = "github:nix-community/stylix/release-25.11";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
+
   den.aspects.stylix = {
     nixos = {pkgs, ...}: {
       imports = [inputs.stylix.nixosModules.stylix];
@@ -40,8 +45,9 @@
       ];
     };
 
-    homeManager = {...}: {
-      stylix.enableReleaseChecks = false;
+    homeManager = {
+      # imports = [inputs.stylix.homeModules.stylix];
+      # stylix.enableReleaseChecks = false;
     };
   };
 }

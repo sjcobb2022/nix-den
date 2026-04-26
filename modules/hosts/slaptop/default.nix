@@ -4,8 +4,10 @@
   lib,
   ...
 }: {
-  den.ctx.user.includes = [(den.provides.impermanence-user "/persist")];
-  den.ctx.host.includes = [(den.provides.impermanence-host "/persist")];
+  flake-file.inputs.nixos-hardware.url = "github:NixOS/nixos-hardware";
+
+  den.ctx.user.includes = [(den.provides.impermanenceHome "/persist")];
+  den.ctx.host.includes = [(den.provides.impermanence "/persist")];
 
   den.aspects.slaptop = {
     includes = [
@@ -28,6 +30,9 @@
       imports = [
         inputs.nixos-hardware.nixosModules.omen-15-en1007sa
       ];
+
+      # set all users on this laptop to not be mutable.
+      users.users.mutableUsers = false;
 
       hardware.facter.reportPath = ./facter.json;
 

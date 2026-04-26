@@ -1,7 +1,8 @@
 # DO-NOT-EDIT. This file was auto-generated using github:vic/flake-file.
 # Use `nix run .#write-flake` to regenerate it.
 {
-  outputs = inputs: inputs.flake-parts.lib.mkFlake {inherit inputs;} (inputs.import-tree ./modules);
+
+  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
 
   inputs = {
     den.url = "github:vic/den";
@@ -18,12 +19,14 @@
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:nix-community/home-manager/release-25.11";
     };
-    impermanence.url = "github:nix-community/impermanence";
-    import-tree.url = "github:vic/import-tree";
-    lanzaboote = {
-      inputs.nixpkgs.follows = "nixpkgs";
-      url = "github:nix-community/lanzaboote";
+    impermanence = {
+      inputs = {
+        home-manager.follows = "home-manager";
+        nixpkgs.follows = "nixpkgs";
+      };
+      url = "github:nix-community/impermanence";
     };
+    import-tree.url = "github:vic/import-tree";
     nix-darwin = {
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:LnL7/nix-darwin";
@@ -45,4 +48,5 @@
       url = "github:nix-community/stylix/release-25.11";
     };
   };
+
 }

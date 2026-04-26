@@ -16,28 +16,36 @@
     };
   };
 
-  impermanenceUserClass = path: {user, ...}:
+  impermanenceHostClass = path: {
+    class,
+    aspect-chain,
+  }:
     den.provides.forward {
-      each = lib.singleton user;
+      each = lib.singleton true;
       fromClass = _: "impermanence";
-      intoClass = _: "homeManager";
-      intoPath = _: ["home" "persistence" path];
-      fromAspect = u: den.aspects.${u.aspect};
-      guard = {options, ...}: options ? home && options.home ? persistence;
-      adapterModule = impermanenceAdapter;
-    };
-
-  impermanenceHostClass = path: {host, ...}:
-    den.provides.forward {
-      each = lib.singleton host;
-      fromClass = _: "impermanence";
-      intoClass = _: host.class;
+      intoClass = _: "nixos";
       intoPath = _: ["environment" "persistence" path];
-      fromAspect = h: den.aspects.${h.aspect};
+      fromAspect = _: lib.head aspect-chain;
       guard = {options, ...}: options ? environment && options.environment ? persistence;
       adapterModule = impermanenceAdapter;
     };
+
+  impermanenceUserClass = path: {
+    host,
+    user,
+  }: {
+    class,
+    aspect-chain,
+  }:
+    den.provides.forward {
+      each = lib.singleton user;
+      fromClass = _: "impermanenceHome";
+      intoClass = _: "homeManager";
+      intoPath = _: ["home" "persistence" path];
+      fromAspect = _: lib.head aspect-chain;
+      adapterModule = impermanenceAdapter;
+    };
 in {
-  den.provides.impermanence-user = path: (impermanenceUserClass path);
-  den.provides.impermanence-host = path: (impermanenceHostClass path);
+  den.provides.impermanence = path: (impermanenceHostClass path);
+  den.provides.impermanenceHome = path: (impermanenceUserClass path);
 }

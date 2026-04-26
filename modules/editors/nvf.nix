@@ -1,4 +1,9 @@
 {inputs, ...}: {
+  flake-file.inputs.nvf = {
+    url = "github:notashelf/nvf";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
+
   den.aspects.nvf = {
     homeManager = {pkgs, ...}: {
       imports = [inputs.nvf.homeManagerModules.default];

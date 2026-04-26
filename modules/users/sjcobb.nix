@@ -1,6 +1,7 @@
 {den, ...}: {
   den.aspects.sjcobb = {
     includes = [
+      den._.host-aspects
       den.provides.primary-user
       (den.provides.user-shell "fish")
       den.aspects.nvf
@@ -12,8 +13,12 @@
     ];
 
     # User class - forwards to users.users.sjcobb
-    # primary-user already provides wheel and networkmanager
     user = {config, ...}: {
+      sops.secrets.sjcobb-pass = {
+        format = "yaml";
+        sopsFile = ../../secrets/common.yaml;
+      };
+
       group = "sjcobb";
       extraGroups = ["video" "audio"];
       hashedPasswordFile = config.sops.secrets.sjcobb-pass.path;
@@ -22,7 +27,6 @@
     # Group definition and mutableUsers setting
     nixos = {...}: {
       users.groups.sjcobb = {};
-      users.mutableUsers = false;
     };
 
     homeManager = {...}: {

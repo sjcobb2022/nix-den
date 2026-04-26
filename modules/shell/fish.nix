@@ -38,8 +38,12 @@
       };
     };
 
+    # provides.impermanence = {user, ...}: {
+    #   directories = [".local/share/fish"];
+    # };
+
     # In the user context
-    impermanence = {user, ...}: {
+    impermanenceHome = {
       directories = [".local/share/fish"];
     };
   };

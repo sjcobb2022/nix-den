@@ -1,5 +1,5 @@
 {den, ...}: {
-  den.aspects.ssh = {
+  den.aspects.ssh = {host, ...}: {
     nixos = {lib, ...}: {
       services.openssh = {
         enable = true;
@@ -11,19 +11,27 @@
         };
 
         # Default host keys (overridden by impermanence aspect)
-        hostKeys = lib.mkDefault [
-          {
-            path = "/etc/ssh/ssh_host_ed25519_key";
-            type = "ed25519";
-          }
-        ];
+        hostKeys =
+          if host.hasAspect den.aspects.impermanence
+          then [
+            {
+              path = "/persist/etc/ssh/ssh_host_ed25519_key";
+              type = "ed25519";
+            }
+          ]
+          else [
+            {
+              path = "/persist/etc/ssh/ssh_host_ed25519_key";
+              type = "ed25519";
+            }
+          ];
       };
 
       # Passwordless sudo when SSH'd with keys
       security.pam.sshAgentAuth.enable = true;
     };
 
-    homeManager = {...}: {
+    homeManager = {
       programs.ssh = {
         enable = true;
         addKeysToAgent = "yes";

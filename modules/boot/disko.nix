@@ -3,6 +3,11 @@
   inputs,
   ...
 }: {
+  flake-file.inputs.disko = {
+    url = "github:nix-community/disko";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
+
   # Parametric provider - takes device path as argument
   den.provides.disko-luks-btrfs = device: {
     nixos = {lib, ...}: {
