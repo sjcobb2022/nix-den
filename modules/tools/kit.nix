@@ -1,4 +1,4 @@
-{den, ...}: {
+{
   den.aspects.kit = {
     homeManager = {pkgs, ...}: {
       home.packages = with pkgs; [

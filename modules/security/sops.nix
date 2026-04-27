@@ -19,11 +19,15 @@
   };
 
   den.aspects.sops-default-ssh = {
-    age.sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
+    nixos = {
+      sops.age.sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
+    };
   };
 
   den.aspects.sops-impermanence = {
-    age.sshKeyPaths = ["/persist/etc/ssh/ssh_host_ed25519_key"];
+    nixos = {
+      sops.age.sshKeyPaths = ["/persist/etc/ssh/ssh_host_ed25519_key"];
+    };
   };
 
   den.aspects.sops = {

@@ -1,8 +1,4 @@
-{
-  den,
-  inputs,
-  ...
-}: {
+{inputs, ...}: {
   flake-file.inputs.stylix = {
     url = "github:nix-community/stylix/release-25.11";
     inputs.nixpkgs.follows = "nixpkgs";
@@ -43,11 +39,6 @@
         nerd-fonts.fira-code
         noto-fonts-cjk-sans
       ];
-    };
-
-    homeManager = {
-      # imports = [inputs.stylix.homeModules.stylix];
-      # stylix.enableReleaseChecks = false;
     };
   };
 }

@@ -1,6 +1,6 @@
-{den, ...}: {
+{
   den.aspects.git = {
-    homeManager = {...}: {
+    homeManager = {
       programs.git = {
         enable = true;
         ignores = [

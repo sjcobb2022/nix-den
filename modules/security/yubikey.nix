@@ -1,4 +1,4 @@
-{den, ...}: {
+{
   den.aspects.yubikey = {
     nixos = {pkgs, ...}: {
       services.udev.packages = [pkgs.yubikey-personalization];

@@ -1,6 +1,6 @@
-{den, ...}: {
+{
   den.aspects.audio = {
-    nixos = {...}: {
+    nixos = {
       security.rtkit.enable = true;
       services.pipewire = {
         enable = true;

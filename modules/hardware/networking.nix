@@ -1,20 +1,21 @@
-{den, ...}: {
+{
   den.aspects.networking = {
-    nixos = {...}: {
-      networking.networkmanager = {
-        enable = true;
-        dns = "systemd-resolved";
+    nixos = {
+      networking = {
+        networkmanager.enable = true;
+        networkmanager.dns = "systemd-resolved";
+
+        nameservers = ["1.1.1.1" "1.0.0.1"];
+
+        firewall = {
+          enable = true;
+          checkReversePath = false;
+        };
       };
-      networking.nameservers = ["1.1.1.1" "1.0.0.1"];
 
       services.resolved = {
         enable = true;
         fallbackDns = ["1.1.1.1" "1.0.0.1"];
-      };
-
-      networking.firewall = {
-        enable = true;
-        checkReversePath = false;
       };
 
       programs.captive-browser = {
@@ -23,7 +24,7 @@
       };
     };
 
-    darwin = {...}: {
+    darwin = {
       networking = {
         knownNetworkServices = ["Thunderbolt Bridge" "Wi-Fi"];
         dns = ["1.1.1.1" "1.0.0.1"];

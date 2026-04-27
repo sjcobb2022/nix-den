@@ -1,10 +1,10 @@
-{den, ...}: {
+{
   den.aspects.fish = {
-    nixos = {...}: {
+    nixos = {
       programs.fish.enable = true;
     };
 
-    homeManager = {...}: {
+    homeManager = {
       programs.fish = {
         enable = true;
         interactiveShellInit = ''
@@ -38,11 +38,6 @@
       };
     };
 
-    # provides.impermanence = {user, ...}: {
-    #   directories = [".local/share/fish"];
-    # };
-
-    # In the user context
     impermanenceHome = {
       directories = [".local/share/fish"];
     };

@@ -1,6 +1,6 @@
-{den, ...}: {
+{
   den.aspects.starship = {
-    homeManager = {...}: {
+    homeManager = {
       programs.starship.enable = true;
     };
   };

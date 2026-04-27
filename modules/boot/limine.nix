@@ -1,4 +1,4 @@
-{den, ...}: {
+{
   den.aspects.limine = {
     nixos = {pkgs, ...}: {
       boot.loader.limine = {

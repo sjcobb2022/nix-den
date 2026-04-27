@@ -12,11 +12,6 @@
   den.aspects.impermanence = {
     nixos = {...}: {
       imports = [inputs.impermanence.nixosModules.impermanence];
-
-      programs.fuse.userAllowOther = true;
-
-      # sops-nix needs keys from /persist (accessible before bind mounts)
-      sops.age.sshKeyPaths = ["/persist/etc/ssh/ssh_host_ed25519_key"];
     };
 
     impermanence = {

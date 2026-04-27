@@ -1,6 +1,6 @@
 {den, ...}: {
   den.aspects.ssh = {host, ...}: {
-    nixos = {lib, ...}: {
+    nixos = {
       services.openssh = {
         enable = true;
         settings = {
@@ -35,10 +35,10 @@
       programs.ssh = {
         enable = true;
         enableDefaultConfig = false;
-        addKeysToAgent = "yes";
 
         # GPG agent forwarding for all hosts
         matchBlocks."*" = {
+          addKeysToAgent = "yes";
           remoteForwards = [
             {
               bind.address = "/run/user/%U/gnupg/S.gpg-agent";

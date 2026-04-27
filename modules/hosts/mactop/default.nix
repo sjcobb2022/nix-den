@@ -5,7 +5,7 @@
       den.aspects.stylix
     ];
 
-    darwin = {...}: {
+    darwin = {
       services.nix-daemon.enable = true;
       nix.settings.experimental-features = [
         "nix-command"

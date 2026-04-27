@@ -12,13 +12,6 @@
       den.aspects.kit
     ];
 
-    # User class - forwards to users.users.sjcobb
-    user = {config, ...}: {
-      group = "sjcobb";
-      extraGroups = ["video" "audio"];
-      hashedPasswordFile = config.sops.secrets.sjcobb-pass.path;
-    };
-
     nixos = {
       sops.secrets.sjcobb-pass = {
         format = "yaml";
@@ -28,7 +21,13 @@
       users.groups.sjcobb = {};
     };
 
-    homeManager = {...}: {
+    user = {config, ...}: {
+      group = "sjcobb";
+      extraGroups = ["video" "audio"];
+      hashedPasswordFile = config.sops.secrets.sjcobb-pass.path;
+    };
+
+    homeManager = {
       programs.git.settings.user = {
         name = "sjcobb2022";
         email = "sjcobb2003@gmail.com";
