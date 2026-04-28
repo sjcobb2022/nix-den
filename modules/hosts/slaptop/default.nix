@@ -26,7 +26,7 @@
       den.aspects.nvidia
     ];
 
-    nixos = {pkgs, ...}: {
+    nixos = {
       imports = [
         inputs.nixos-hardware.nixosModules.omen-15-en1007sa
       ];

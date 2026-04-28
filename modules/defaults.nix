@@ -38,7 +38,7 @@
   den.schema.user.classes = lib.mkDefault ["homeManager"];
 
   # host<->user provides
-  den.stages.user.includes = [den._.mutual-provider];
+  den.schema.user.includes = [den._.mutual-provider];
 
   # Overlay for pkgs.unstable
   den.default.nixos.nixpkgs.overlays = [
