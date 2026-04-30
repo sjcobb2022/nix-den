@@ -9,12 +9,14 @@
       home.homeDirectory = "/Users/${user.name}";
     };
 
-    darwin = {
+    darwin = {user, ...}: {
       services.nix-daemon.enable = true;
       nix.settings.experimental-features = [
         "nix-command"
         "flakes"
       ];
+
+      users.users.${user.name}.createHome = true;
 
       system.defaults = {
         dock.autohide = true;
