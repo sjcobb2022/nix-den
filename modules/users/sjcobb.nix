@@ -3,6 +3,7 @@
     includes = [
       den._.host-aspects
       den.provides.primary-user
+      den.provides.define-user
       (den.provides.user-shell "fish")
       den.aspects.nvf
       den.aspects.gpg
