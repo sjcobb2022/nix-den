@@ -5,6 +5,10 @@
       den.aspects.stylix
     ];
 
+    homeManager = {user, ...}: {
+      home.homeDirectory = "/Users/${user.name}";
+    };
+
     darwin = {
       services.nix-daemon.enable = true;
       nix.settings.experimental-features = [
