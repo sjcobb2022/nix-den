@@ -5,7 +5,7 @@
 
   inputs = {
     darwin = {
-      url = "github:LnL7/nix-darwin";
+      url = "github:LnL7/nix-darwin/nix-darwin-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     den.url = "github:vic/den/feat/fx-pipeline";
