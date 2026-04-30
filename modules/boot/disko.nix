@@ -1,4 +1,8 @@
-{inputs, ...}: {
+{
+  den,
+  inputs,
+  ...
+}: {
   flake-file.inputs.disko = {
     url = "github:nix-community/disko";
     inputs.nixpkgs.follows = "nixpkgs";
@@ -6,7 +10,11 @@
 
   # Parametric provider - takes device path as argument
   den.provides.disko-luks-btrfs = device: {
-    nixos = {lib, ...}: {
+    nixos = {
+      host,
+      lib,
+      ...
+    }: {
       imports = [inputs.disko.nixosModules.disko];
 
       # Wipe root subvolume on boot, keeping old snapshots for 30 days
@@ -68,13 +76,15 @@
                         "noatime"
                       ];
                     };
-                    "/persist" = {
-                      mountpoint = "/persist";
-                      mountOptions = [
-                        "compress=zstd"
-                        "noatime"
-                      ];
-                    };
+                    "/persist" =
+                      lib.mkIf (host.hasAspect den.aspects.impermanence)
+                      {
+                        mountpoint = "/persist";
+                        mountOptions = [
+                          "compress=zstd"
+                          "noatime"
+                        ];
+                      };
                     "/nix" = {
                       mountpoint = "/nix";
                       mountOptions = [
@@ -94,7 +104,11 @@
         };
       };
 
-      fileSystems."/persist".neededForBoot = true;
+      fileSystems."/persist" =
+        lib.mkIf (host.hasAspect den.aspects.impermanence)
+        {
+          neededForBoot = true;
+        };
     };
   };
 }

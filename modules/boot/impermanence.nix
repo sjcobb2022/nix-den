@@ -10,7 +10,7 @@
   };
 
   den.aspects.impermanence = {
-    nixos = {...}: {
+    nixos = {
       imports = [inputs.impermanence.nixosModules.impermanence];
     };
 

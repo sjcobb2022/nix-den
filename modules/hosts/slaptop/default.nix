@@ -6,13 +6,12 @@
 }: {
   flake-file.inputs.nixos-hardware.url = "github:NixOS/nixos-hardware";
 
-  den.stages.user.includes = [(den.provides.impermanenceHome "/persist")];
-  den.stages.host.includes = [(den.provides.impermanence "/persist")];
-
   den.aspects.slaptop = {
     includes = [
       den.provides.hostname
       (den.provides.disko-luks-btrfs "/dev/nvme0n1")
+      (den.provides.impermanenceHome "/persist")
+      (den.provides.impermanence "/persist")
       den.aspects.impermanence
       den.aspects.limine
       den.aspects.sops

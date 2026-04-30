@@ -11,6 +11,7 @@
     };
 
     homeManager = {pkgs, ...}: {
+      services.mpris-proxy.enable = true;
       home.packages = [
         pkgs.pavucontrol
         pkgs.playerctl
