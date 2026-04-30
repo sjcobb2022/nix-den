@@ -12,19 +12,16 @@
       den.aspects.kit
     ];
 
-    nixos = {
+    nixos = {config, ...}: {
       sops.secrets.sjcobb-pass = {
         format = "yaml";
         sopsFile = ../../secrets/common.yaml;
       };
 
-      users.groups.sjcobb = {};
-    };
-
-    user = {config, ...}: {
-      group = "sjcobb";
-      extraGroups = ["video" "audio"];
-      hashedPasswordFile = config.sops.secrets.sjcobb-pass.path;
+      users.users.sjcobb = {
+        extraGroups = ["video" "audio"];
+        hashedPasswordFile = config.sops.secrets.sjcobb-pass.path;
+      };
     };
 
     homeManager = {
