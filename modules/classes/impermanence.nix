@@ -13,6 +13,25 @@
         type = lib.types.listOf lib.types.anything;
         default = [];
       };
+      hideMounts = lib.mkOption {
+        type = lib.types.anything;
+        default = false;
+      };
+      users = lib.mkOption {
+        type = lib.types.attrsOf (lib.types.submodule {
+          options = {
+            directories = lib.mkOption {
+              type = lib.types.listOf lib.types.anything;
+              default = [];
+            };
+            files = lib.mkOption {
+              type = lib.types.listOf lib.types.anything;
+              default = [];
+            };
+          };
+        });
+        default = {};
+      };
     };
   };
 
@@ -20,7 +39,7 @@
     class,
     aspect-chain,
   }:
-    den.provides.forward {
+    den.batteries.forward {
       each = lib.singleton true;
       fromClass = _: "impermanence";
       intoClass = _: "nixos";
@@ -29,23 +48,6 @@
       guard = {options, ...}: options ? environment && options.environment ? persistence;
       adapterModule = impermanenceAdapter;
     };
-
-  impermanenceUserClass = path: {
-    host,
-    user,
-  }: {
-    class,
-    aspect-chain,
-  }:
-    den.provides.forward {
-      each = lib.singleton user;
-      fromClass = _: "impermanenceHome";
-      intoClass = _: "homeManager";
-      intoPath = _: ["home" "persistence" path];
-      fromAspect = _: lib.head aspect-chain;
-      adapterModule = impermanenceAdapter;
-    };
 in {
   den.provides.impermanence = path: (impermanenceHostClass path);
-  den.provides.impermanenceHome = path: (impermanenceUserClass path);
 }

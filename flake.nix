@@ -5,10 +5,10 @@
 
   inputs = {
     darwin = {
-      url = "github:LnL7/nix-darwin/nix-darwin-25.11";
+      url = "github:LnL7/nix-darwin/nix-darwin-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    den.url = "github:vic/den/feat/fx-pipeline";
+    den.url = "github:vic/den";
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -19,7 +19,7 @@
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     impermanence = {
@@ -30,8 +30,11 @@
       };
     };
     import-tree.url = "github:vic/import-tree";
-    nixos-hardware.url = "github:NixOS/nixos-hardware";
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixos-hardware = {
+      url = "github:NixOS/nixos-hardware";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nvf = {
       url = "github:notashelf/nvf";
@@ -42,7 +45,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     stylix = {
-      url = "github:nix-community/stylix/release-25.11";
+      url = "github:nix-community/stylix/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

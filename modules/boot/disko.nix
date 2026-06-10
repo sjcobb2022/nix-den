@@ -13,35 +13,50 @@
     nixos = {
       host,
       lib,
+      utils,
       ...
     }: {
       imports = [inputs.disko.nixosModules.disko];
 
       # Wipe root subvolume on boot, keeping old snapshots for 30 days
-      boot.initrd.postResumeCommands = lib.mkAfter ''
-        mkdir /btrfs_tmp
-        mount /dev/mapper/crypted /btrfs_tmp
-        if [[ -e /btrfs_tmp/root ]]; then
-          mkdir -p /btrfs_tmp/old_roots
-          timestamp=$(date --date="@$(stat -c %Y /btrfs_tmp/root)" "+%Y-%m-%d_%H:%M:%S")
-          mv /btrfs_tmp/root "/btrfs_tmp/old_roots/$timestamp"
-        fi
+      boot.initrd.systemd = {
+        enable = true; # Default in 26.05
+        services.wipe-file-systems = {
+          # Specify dependencies explicitly
+          unitConfig.DefaultDependencies = false;
+          # The script needs to run to completion before this service is done
+          serviceConfig.Type = "oneshot";
+          # This service is required for boot to succeed
+          requiredBy = ["initrd.target"];
+          # Should complete before any file systems are mounted
+          before = ["sysroot.mount"];
 
-        delete_subvolume_recursively() {
-          IFS=$'\n'
-          for i in $(btrfs subvolume list -o "$1" | cut -f 9- -d ' '); do
-            delete_subvolume_recursively "/btrfs_tmp/$i"
-          done
-          btrfs subvolume delete "$1"
-        }
+          # Wait for the unlocked LUKS device to appear
+          requires = ["${utils.escapeSystemdPath "/dev/mapper/crypted"}.device"];
+          after = [
+            "${utils.escapeSystemdPath "/dev/mapper/crypted"}.device"
+            # Allow hibernation to resume before trying to alter any data
+            "local-fs-pre.target"
+          ];
 
-        for i in $(find /btrfs_tmp/old_roots/ -maxdepth 1 -mtime +30); do
-          delete_subvolume_recursively "$i"
-        done
+          script = ''
+            mkdir /btrfs_tmp
+            mount /dev/mapper/crypted /btrfs_tmp
+            if [[ -e /btrfs_tmp/root ]]; then
+                mkdir -p /btrfs_tmp/old_roots
+                timestamp=$(date --date="@$(stat -c %Y /btrfs_tmp/root)" "+%Y-%m-%d_%H:%M:%S")
+                mv /btrfs_tmp/root "/btrfs_tmp/old_roots/$timestamp"
+            fi
 
-        btrfs subvolume create /btrfs_tmp/root
-        umount /btrfs_tmp
-      '';
+            for i in $(find /btrfs_tmp/old_roots/ -mindepth 1 -maxdepth 1 -mtime +30); do
+                btrfs subvolume delete --recursive "$i"
+            done
+
+            btrfs subvolume create /btrfs_tmp/root
+            umount /btrfs_tmp
+          '';
+        };
+      };
 
       disko.devices.disk.main = {
         inherit device;

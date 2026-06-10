@@ -1,5 +1,5 @@
 {
-  den.aspects.git = {
+  den.aspects.git = {user, ...}: {
     homeManager = {
       programs.git = {
         enable = true;
@@ -23,8 +23,10 @@
       };
     };
 
-    impermanenceHome = {
-      directories = [".config/gh"];
+    impermanence = {
+      users.${user.name} = {
+        directories = [".config/gh"];
+      };
     };
   };
 }

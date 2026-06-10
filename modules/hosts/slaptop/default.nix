@@ -5,12 +5,12 @@
   ...
 }: {
   flake-file.inputs.nixos-hardware.url = "github:NixOS/nixos-hardware";
+  flake-file.inputs.nixos-hardware.inputs.nixpkgs.follows = "nixpkgs";
 
   den.aspects.slaptop = {
     includes = [
       den.provides.hostname
       (den.provides.disko-luks-btrfs "/dev/nvme0n1")
-      (den.provides.impermanenceHome "/persist")
       (den.provides.impermanence "/persist")
       den.aspects.impermanence
       den.aspects.limine
@@ -20,6 +20,7 @@
       den.aspects.bluetooth
       den.aspects.audio
       den.aspects.networking
+      den.aspects.git
       den.aspects.power
       den.aspects.stylix
       den.aspects.nvidia

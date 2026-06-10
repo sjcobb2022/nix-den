@@ -37,14 +37,16 @@
         enableDefaultConfig = false;
 
         # GPG agent forwarding for all hosts
-        matchBlocks."*" = {
-          addKeysToAgent = "yes";
-          remoteForwards = [
-            {
-              bind.address = "/run/user/%U/gnupg/S.gpg-agent";
-              host.address = "/run/user/%U/gnupg/S.gpg-agent.extra";
-            }
-          ];
+        settings = {
+          "*" = {
+            AddKeysToAgent = "yes";
+            RemoteForward = [
+              {
+                bind.address = "/run/user/%U/gnupg/S.gpg-agent";
+                host.address = "/run/user/%U/gnupg/S.gpg-agent.extra";
+              }
+            ];
+          };
         };
       };
     };

@@ -16,6 +16,7 @@
         host = inputs.self.nixosConfigurations.slaptop.config;
       in ''
         ${host.system.build.vm}/bin/run-${host.networking.hostName}-vm "$@"
+        rm ${host.networking.hostName}.qcow2
       '';
     };
   };

@@ -1,5 +1,5 @@
 {
-  den.aspects.fish = {
+  den.aspects.fish = {user, ...}: {
     nixos = {
       programs.fish.enable = true;
     };
@@ -38,8 +38,10 @@
       };
     };
 
-    impermanenceHome = {
-      directories = [".local/share/fish"];
+    impermanence = {
+      users.${user.name} = {
+        directories = [".local/share/fish"];
+      };
     };
   };
 }

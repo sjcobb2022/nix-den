@@ -1,7 +1,7 @@
 {den, ...}: {
   den.aspects.sjcobb = {
     includes = [
-      den._.host-aspects
+      den.provides.host-aspects
       den.provides.primary-user
       den.provides.define-user
       (den.provides.user-shell "fish")
@@ -9,7 +9,7 @@
       den.aspects.gpg
       den.aspects.fish
       den.aspects.starship
-      den.aspects.git
+      # den.aspects.git
       den.aspects.kit
     ];
 
